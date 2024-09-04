@@ -5,8 +5,8 @@ import Register from './pages/Register';
 import PageNotFound from './pages/PageNotFound';
 import Password from './components/Password';
 import Recovery from './components/Recovery';
-import Reset from './components/Reset';
 import './index.css'
+import ResetPassword from './components/ResetPassword';
 
 function App() {
 
@@ -18,7 +18,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/password" element={<Password />} />
       <Route path="/recovery" element={<Recovery />} />
-      <Route path="/reset" element={<Reset />} />
+      <Route path="/reset" element={<ResetPassword />} />
       <Route path="*" element={<PageNotFound />} />
      </Routes>
      </>
