@@ -1,17 +1,19 @@
-import React from 'react';
 import { Button, Typography, Box, Avatar } from '@mui/material';
-import { auth } from '../firebase/firebase';
 import { useNavigate } from 'react-router-dom';
 import Gatimg from '../assets/gateway.jpg'; // Import the Gateway image
+import { UseAuth } from '../context/AuthContext';
 
 const Home = () => {
   const navigate = useNavigate();
-  const user = auth.currentUser;
+  // const user = auth.currentUser;
+  const {currentUser,logout}=UseAuth();
 
   const handleLogout = async () => {
-    await auth.signOut();
+    // await auth.signOut();
+    await logout();
     navigate('/login');
   };
+  
 
   return (
     <div className='container mx-auto'>
@@ -36,14 +38,14 @@ const Home = () => {
             </Typography>
 
             <Typography variant="subtitle1" className="text-center text-gray-500">
-              {user?.displayName || 'User'}
+              {currentUser?.displayName || 'User'}
             </Typography>
           </div>
 
           <div className="flex justify-center py-3">
             <Avatar
               alt="Profile Image"
-              src={user?.photoURL || 'https://via.placeholder.com/150'}
+              src={currentUser?.photoURL || 'https://via.placeholder.com/150'}
               className="w-20 h-20 rounded-full border-2 border-gray-300"
             />
           </div>
@@ -63,7 +65,7 @@ const Home = () => {
             }}
           >
             <Typography variant="body1" className="text-center">
-              {user?.email}
+              {currentUser?.email}
             </Typography>
 
             <Button 

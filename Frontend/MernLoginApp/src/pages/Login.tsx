@@ -1,6 +1,6 @@
 // src/components/Login.tsx
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, Button, Typography, Link, Box, InputAdornment, IconButton, CircularProgress } from '@mui/material';
 import Gatimg from '../assets/gateway.jpg';
 import Avaimg from '../assets/profile.png';
@@ -9,16 +9,25 @@ import { auth } from '../firebase/firebase';
 import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { UseAuth } from '../context/AuthContext'; // Importing AuthContext
 
 const Login = () => {
   const navigate = useNavigate();
+  const {currentUser}=UseAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [loading, setLoading] = useState(false);
 
+  useEffect(()=>{
+    if(currentUser){
+      navigate("/");
+    }
+  },[currentUser]);
+
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
+    setLoading(true);
     try {
       const result = await signInWithPopup(auth, provider);
       console.log(result.user);

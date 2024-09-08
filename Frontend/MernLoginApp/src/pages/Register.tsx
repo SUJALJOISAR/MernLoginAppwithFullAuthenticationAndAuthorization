@@ -4,10 +4,11 @@ import { TextField, Button, Typography, Link, Box, InputAdornment, IconButton } 
 import Avaimg from '../assets/profile.png';
 import Gatimg from '../assets/gateway.jpg';
 import { Google as GoogleIcon, Visibility, VisibilityOff } from '@mui/icons-material'; // Importing Google icon
-import {auth} from '../firebase/firebase';
+// import {auth} from '../firebase/firebase';
 // import { GoogleAuthProvider,signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import {toast} from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { UseAuth } from '../context/AuthContext';
 
 // Validation Function
 const validateInput = (username: string, email: string, password: string) => {
@@ -31,31 +32,20 @@ const [username, setUsername] = useState('');
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-
-// const handleGoogleLogin = ()=>{
-//   const provider = new GoogleAuthProvider();
-//   signInWithPopup(auth,provider).then(async (result)=>{
-//      console.log(result.user);
-//      if(result.user){
-//          toast.success("User logged in Successfully");
-//      }
-//      navigate("/");
-//   });
-// }
-
+const {manualRegister}=UseAuth();
 
 const handleRegister = async (e:React.FormEvent<HTMLFormElement>)=>{
   e.preventDefault();
  // Validate Input
-//  const error = validateInput(username, email, password);
-//  if (error) {
-//    toast.error(error);
-//    return;
-//  }
+ const error = validateInput(username, email, password);
+ if (error) {
+   toast.error(error);
+   return;
+ }
 
- // Firebase Sign-In
+ 
  try {
-  //  await signInWithEmailAndPassword(auth, email, password);
+   await manualRegister(username,email,password)
    console.log("User Registered Successfully");
    toast.success("User Registered Successfully");
    navigate("/");
